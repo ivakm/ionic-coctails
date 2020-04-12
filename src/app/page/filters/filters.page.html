@@ -1,0 +1,35 @@
+<ion-header no-border>
+
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button text=""></ion-back-button>
+        </ion-buttons>
+
+        <ion-title class="header-title transparent">
+            {{ 'Filters' }}
+        </ion-title>
+
+    </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="form"
+          (ngSubmit)="submitForm()"
+          *ngIf="form"
+          class="form">
+        <label formArrayName="filtersArray"
+               class="form-checkbox"
+               [class.form--checked]="checkbox.value || filter[i].value"
+               *ngFor="let filter of form.controls.filtersArray.controls; let i = index">
+            {{filtersData.drinks[i].strCategory}}
+            <input type="checkbox" [formControlName]="i" #checkbox/>
+        </label>
+        <ion-button type="submit" class="submit">Apply</ion-button>
+    </form>
+</ion-content>
+
+<ng-template #loading class="loading">
+    <ion-spinner name="crescent"></ion-spinner>
+</ng-template>
+
