@@ -20,10 +20,11 @@
           class="form">
         <label formArrayName="filtersArray"
                class="form-checkbox"
-               [class.form--checked]="checkbox.value || filter[i].value"
                *ngFor="let filter of form.controls.filtersArray.controls; let i = index">
-            {{filtersData.drinks[i].strCategory}}
-            <input type="checkbox" [formControlName]="i" #checkbox/>
+            {{filtersData[i].strCategory}}
+            <input type="checkbox" [formControlName]="i" class="hidden"/>
+            <ion-icon *ngIf="form.controls.filtersArray.controls[i].value"
+                      src="../../../assets/icon/checked.svg"></ion-icon>
         </label>
         <ion-button type="submit" class="submit">Apply</ion-button>
     </form>

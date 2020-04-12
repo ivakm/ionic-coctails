@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FiltersService } from '../../services/filters.service';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
+import { IDrinks } from '../../interfaces/filters';
 
 @Component({
   selector: 'app-filters',
@@ -10,10 +11,9 @@ import { finalize } from 'rxjs/operators';
 })
 
 export class FiltersPage implements OnInit {
-  filtersData;
+  filtersData: IDrinks[] = [];
   form: FormGroup;
   isLoading = false;
-  @ViewChild('checkbox', { static: false }) checkbox;
 
   constructor(
     private filtersService: FiltersService,
@@ -23,12 +23,15 @@ export class FiltersPage implements OnInit {
   ngOnInit() {
     this.isLoading = true;
     this.initialForm();
-    this.filtersService.fetchFilters()
-      .pipe(
-        finalize(() => this.isLoading = false))
-      .subscribe(res => {
-        this.filtersData = res;
-        this.addCheckboxes();
+    this.filtersService.fetchFilters().pipe(
+      finalize(() => {
+        this.isLoading = false;
+      })
+      )
+      .subscribe(drinks => {
+        console.log(drinks);
+        this.filtersData = [...drinks];
+        this.addCheckboxes(drinks);
       });
   }
 
@@ -38,19 +41,19 @@ export class FiltersPage implements OnInit {
     });
   }
 
-  private addCheckboxes() {
-    this.filtersData.drinks.forEach((c, i) => {
-      const control = new FormControl(i === i);
-      (this.form.controls.filtersArray as FormArray).push(control);
+  private addCheckboxes(checkboxes: IDrinks[]) {
+    const formArray = this.form.controls.filtersArray as FormArray;
+
+    checkboxes.forEach((checkbox, index) => {
+      const control = new FormControl(true);
+      formArray.push(control);
     });
   }
 
   submitForm() {
     const selectedFilters = this.form.value.filtersArray
-      .map((v, i) => (v ? this.filtersData.drinks[i].strCategory : null))
-      .filter(v => v !== null);
+      .map((control, index) => (control ? this.filtersData[index].strCategory : null))
+      .filter(val => val !== null);
     console.log(selectedFilters);
-    console.log(this.form.controls.filtersArray.controls[1].value);
-    console.log(this.checkbox.value);
   }
 }

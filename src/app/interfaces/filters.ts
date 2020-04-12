@@ -1,9 +1,8 @@
 export interface IFilters {
-  drinks?: IDrinks[];
+  drinks: IDrinks[];
 }
 
 export interface IDrinks {
-  strCategory?: string;
-  checked?: boolean;
+  strCategory: string;
 }
 
