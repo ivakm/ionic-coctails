@@ -12,5 +12,6 @@ export class CoctailsService {
 
   getCoctails(elems) {
     this.http.get(this.url + elems );
+    console.log();
   }
 }
