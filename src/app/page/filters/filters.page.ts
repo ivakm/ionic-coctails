@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FiltersService } from '../../services/filters.service';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { finalize, map } from 'rxjs/operators';
-import { IDrinks } from '../../interfaces/filters';
+import { finalize, map, switchMap, tap } from 'rxjs/operators';
+import { ICategoryDrink, ICheckboxCategoryDrink, IGroupDrink } from '../../interfaces/filters';
+import { StorageService } from '../../services/storage.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-filters',
@@ -11,49 +13,43 @@ import { IDrinks } from '../../interfaces/filters';
 })
 
 export class FiltersPage implements OnInit {
-  filtersData: IDrinks[] = [];
+  filters: ICheckboxCategoryDrink[] = [];
   form: FormGroup;
-  isLoading = false;
 
   constructor(
     private filtersService: FiltersService,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private navCtrl: NavController,
+    private storageService: StorageService) {
   }
 
   ngOnInit() {
-    this.isLoading = true;
-    this.initialForm();
-    this.filtersService.fetchFilters().pipe(
-      finalize(() => {
-        this.isLoading = false;
-      })
-      )
-      .subscribe(drinks => {
-        console.log(drinks);
-        this.filtersData = [...drinks];
-        this.addCheckboxes(drinks);
-      });
-  }
+    this.storageService.getFilters().subscribe(filters => {
+      this.filters = filters;
 
-  initialForm() {
-    this.form = this.formBuilder.group({
-      filtersArray: new FormArray([])
+      this.initialForm([...filters]);
     });
   }
 
-  private addCheckboxes(checkboxes: IDrinks[]) {
-    const formArray = this.form.controls.filtersArray as FormArray;
+  initialForm(filters: ICheckboxCategoryDrink[]) {
+    const controllers = filters.map(([category, value]) => {
+      const control = new FormControl(value);
+      return control;
+    });
 
-    checkboxes.forEach((checkbox, index) => {
-      const control = new FormControl(true);
-      formArray.push(control);
+    this.form = this.formBuilder.group({
+      filtersArray: new FormArray(controllers)
     });
   }
 
   submitForm() {
-    const selectedFilters = this.form.value.filtersArray
-      .map((control, index) => (control ? this.filtersData[index].strCategory : null))
-      .filter(val => val !== null);
-    console.log(selectedFilters);
+    const filters: ICategoryDrink[] = this.form.value.filtersArray
+      .map((value, index) => ([this.filters[index][0], value]));
+
+    this.storageService.setFilters(filters).subscribe(() => {
+      this.navCtrl.back();
+    }, err => {
+      alert(err);
+    });
   }
 }

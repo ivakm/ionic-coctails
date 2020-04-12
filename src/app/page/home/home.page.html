@@ -9,13 +9,13 @@
                 class="button-next"
                 fill="clear"
                 (click)="navigatePage('filters')">
-          <ion-icon src="../../../assets/icon/filters.svg"></ion-icon>
+            <ion-icon src="../../../assets/icon/filters.svg"></ion-icon>
         </ion-button>
     </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-    <div id="container">
-        <strong>Ready to create an app?</strong>
+<ion-content [fullscreen]="true" (ionScrollStart)="onScroll($event)">
+    <div id="container" >
+        <app-category-list *ngFor="let groupDrink of list" [groupDrink]="groupDrink"></app-category-list>
     </div>
 </ion-content>

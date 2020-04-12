@@ -21,7 +21,7 @@
         <label formArrayName="filtersArray"
                class="form-checkbox"
                *ngFor="let filter of form.controls.filtersArray.controls; let i = index">
-            {{filtersData[i].strCategory}}
+            {{filters[i][0]}}
             <input type="checkbox" [formControlName]="i" class="hidden"/>
             <ion-icon *ngIf="form.controls.filtersArray.controls[i].value"
                       src="../../../assets/icon/checked.svg"></ion-icon>
