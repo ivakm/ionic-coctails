@@ -22,3 +22,5 @@ export interface IGroupDrink {
 }
 
 export type ICheckboxCategoryDrink = [string, boolean];
+
+export type ICategoryDrinkView = [string, boolean];

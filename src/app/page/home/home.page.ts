@@ -1,10 +1,11 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { FiltersService } from '../../services/filters.service';
-import { ICategoryDrink, ICheckboxCategoryDrink, IGroupDrink } from '../../interfaces/filters';
-import { combineAll, concatAll, concatMap, finalize, map, switchMap, tap, toArray } from 'rxjs/operators';
+import { ICategoryDrink, ICategoryDrinkView, ICheckboxCategoryDrink, IGroupDrink } from '../../interfaces/filters';
+import { filter, first, map, skipWhile, switchMap, tap, toArray } from 'rxjs/operators';
 import { CocktailsService } from '../../services/cocktails.service';
 import { StorageService } from '../../services/storage.service';
+import { from, Subject, zip } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -12,9 +13,16 @@ import { StorageService } from '../../services/storage.service';
   styleUrls: ['home.page.scss']
 })
 export class HomePage implements OnInit {
-  isLoading = false;
-  filters = [];
+  filters: ICheckboxCategoryDrink[] = [];
   list: IGroupDrink[] = [];
+  isLoading = false;
+  viewFilters$ = new Subject<ICheckboxCategoryDrink>();
+  categoryFilters$ = zip(
+    this.viewFilters$,
+    this.viewFilters$.pipe(
+      map((item: ICategoryDrinkView) => item[0]),
+      switchMap(category => this.cocktailsService.getCocktail(category)))
+  );
 
   constructor(private navCtrl: NavController,
               private filtersService: FiltersService,
@@ -22,16 +30,27 @@ export class HomePage implements OnInit {
               private storageService: StorageService) {
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.isLoading = true;
-    this.filtersService.loading$.subscribe(isLoading => {
-      console.log(isLoading);
-    });
     this.storageService.getFilters().pipe(
-      tap(filters => this.filters = filters),
-      switchMap((filters) => this.cocktailsService.getCocktails(filters))
-    ).subscribe(lists => {
-      this.list = [{ category: this.filters[0][0], drinks: lists[0] }];
+      switchMap((filters) => from(filters)),
+      filter(item => item[1]),
+      toArray()
+    ).subscribe(filters => {
+      const filterToView = filters.shift();
+      this.filters = [...filters];
+      this.viewFilters$.next(filterToView);
+    });
+  }
+
+  ionViewWillLeave() {
+    this.list = [];
+  }
+
+  ngOnInit() {
+    this.categoryFilters$.subscribe(([item, drinks]) => {
+      this.list = [...this.list, { category: item[0], drinks }];
+      this.isLoading = false;
     });
   }
 
@@ -39,7 +58,16 @@ export class HomePage implements OnInit {
     this.navCtrl.navigateForward(link);
   }
 
-  onScroll(event) {
-    console.log(event);
+  onScrollEnd(event) {
+    console.log('TRIGGER');
+    if (!this.filters.length || this.isLoading) {
+      console.log('NO DATA OR LOADING');
+      return;
+    }
+
+    this.isLoading = true;
+    const filterToView = this.filters.shift();
+    this.viewFilters$.next(filterToView);
+
   }
 }

@@ -14,8 +14,8 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" (ionScrollStart)="onScroll($event)">
+<ion-content (ionScrollEnd)="onScrollEnd($event)" scrollEvents="true">
     <div id="container" >
-        <app-category-list *ngFor="let groupDrink of list" [groupDrink]="groupDrink"></app-category-list>
+        <app-category-list *ngFor="let groupDrink of list" [groupDrink]="groupDrink" [loading]="isLoading"></app-category-list>
     </div>
 </ion-content>

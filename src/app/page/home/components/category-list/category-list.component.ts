@@ -10,6 +10,7 @@ import { IGroupDrink } from '../../../../interfaces/filters';
 export class CategoryListComponent implements OnInit {
 
   @Input() groupDrink: IGroupDrink;
+  @Input() loading: boolean;
 
   constructor() {
   }

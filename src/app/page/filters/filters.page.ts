@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FiltersService } from '../../services/filters.service';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { finalize, map, switchMap, tap } from 'rxjs/operators';
-import { ICategoryDrink, ICheckboxCategoryDrink, IGroupDrink } from '../../interfaces/filters';
+import { ICategoryDrink, ICheckboxCategoryDrink } from '../../interfaces/filters';
 import { StorageService } from '../../services/storage.service';
 import { NavController } from '@ionic/angular';
+import { CocktailsService } from '../../services/cocktails.service';
 
 @Component({
   selector: 'app-filters',
@@ -19,6 +19,7 @@ export class FiltersPage implements OnInit {
   constructor(
     private filtersService: FiltersService,
     private formBuilder: FormBuilder,
+    private cocktailsService: CocktailsService,
     private navCtrl: NavController,
     private storageService: StorageService) {
   }
@@ -47,9 +48,11 @@ export class FiltersPage implements OnInit {
       .map((value, index) => ([this.filters[index][0], value]));
 
     this.storageService.setFilters(filters).subscribe(() => {
-      this.navCtrl.back();
+      // this.storageService.updateDB(filters);
     }, err => {
       alert(err);
     });
+    this.cocktailsService.setDataAfterFiltered(filters);
+    this.navCtrl.back();
   }
 }

@@ -1,8 +1,8 @@
 import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { fromPromise } from 'rxjs/internal-compatibility';
-import { ICategoryDrink, ICheckboxCategoryDrink, IDrink } from '../interfaces/filters';
+import { ICheckboxCategoryDrink, IDrink } from '../interfaces/filters';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,13 @@ export class StorageService {
   ready() {
     return this.storage.ready();
   }
+
+  // updateDB(data) {
+  //   const newDB = new Storage({ driverOrder: ['indexeddb'] });
+  //   newDB.ready().then(() => {
+  //     newDB.set('filters', data);
+  //   });
+  // }
 
   setDrinksCategory(category: string, drinks: IDrink[]) {
     return fromPromise(this.storage.set(category, drinks));

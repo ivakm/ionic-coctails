@@ -12,8 +12,7 @@ export class FiltersService {
   filtersUrl = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
   loading$ = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) { }
 
   fetchFilters(): Observable<ICategoryDrink[]> {
     return this.http.get(this.filtersUrl).pipe(

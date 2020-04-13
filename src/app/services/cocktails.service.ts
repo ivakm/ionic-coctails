@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin, Observable } from 'rxjs';
-import { ICheckboxCategoryDrink, IDrink, IDrinks } from '../interfaces/filters';
-import Any = jasmine.Any;
+import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
+import { ICategoryDrink, ICheckboxCategoryDrink, IDrink, IDrinks } from '../interfaces/filters';
 import { map } from 'rxjs/operators';
 
 
@@ -11,21 +10,20 @@ import { map } from 'rxjs/operators';
 })
 export class CocktailsService {
   url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php';
+  newData = new BehaviorSubject([]);
+  firstRender = new BehaviorSubject(true);
 
   constructor(private http: HttpClient) {
   }
 
-  getCocktail(param: string): Observable<IDrinks> {
-    return this.http.get(this.url, { params: { c: param } }) as Observable<IDrinks>;
+  getCocktail(param: string): Observable<IDrink[]> {
+    return this.http.get(this.url, { params: { c: param } }).pipe(
+      map<IDrinks, IDrink[]>(categoryDrinks => categoryDrinks.drinks)
+    );
   }
 
-  getCocktails(filters: ICheckboxCategoryDrink[]) {
-    const elms = filters.map(([category, value]) => value ? category.replace(' ', '_') : null).filter(Boolean);
-
-    const requests: Observable<IDrink[]>[] = elms.map(elem => this.getCocktail(elem).pipe(
-      map<IDrinks, IDrink[]>(categoryDrinks => categoryDrinks.drinks)
-    ));
-
-    return forkJoin(requests);
+  setDataAfterFiltered(arr: ICategoryDrink[]) {
+    this.newData.next(arr);
+    this.firstRender.next(false);
   }
 }
