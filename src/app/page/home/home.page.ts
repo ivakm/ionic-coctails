@@ -59,9 +59,7 @@ export class HomePage implements OnInit {
   }
 
   onScrollEnd(event) {
-    console.log('TRIGGER');
     if (!this.filters.length || this.isLoading) {
-      console.log('NO DATA OR LOADING');
       return;
     }
 
