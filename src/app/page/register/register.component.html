@@ -1,0 +1,38 @@
+<ion-header>
+    <ion-toolbar>
+        <span>some text header</span>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="register__header">Registration</div>
+    <div [formGroup]="registerForm" class="register__form">
+        <ion-item lines="none">
+            <ion-label position="floating">Name</ion-label>
+            <ion-input [formControlName]="'name'"></ion-input>
+        </ion-item>
+        <ion-item lines="none">
+            <ion-label position="floating">E-mail</ion-label>
+            <ion-input [formControlName]="'email'"></ion-input>
+        </ion-item>
+        <ion-item lines="none" class="register__pass">
+            <ion-label position="floating">Password</ion-label>
+            <ion-input [formControlName]="'pass'" [type]="isShowPass ? 'text': 'password'">
+            </ion-input>
+            <ion-button slot="end" color="none" (click)="isShowPass =!isShowPass">
+                <ion-icon name="eye" class="icon__eye"></ion-icon>
+            </ion-button>
+        </ion-item>
+        <ion-item lines="none" class="register__pass">
+            <ion-label position="floating">Repeat Password</ion-label>
+            <ion-input [formControlName]="'passRepeat'" [type]="isShowRepeatPass ? 'text': 'password'"></ion-input>
+            <ion-button slot="end" color="none" (click)="isShowRepeatPass = !isShowRepeatPass">
+                <ion-icon name="eye" class="icon__eye"></ion-icon>
+            </ion-button>
+        </ion-item>
+        <ion-button (click)="showData()" [disabled]="!registerForm.valid" size="medium" class="register__submit">Continue</ion-button>
+    </div>
+    <div class="login-action">
+        <span> Already have an account? </span>
+        <a [routerLink]="['/login']" class="login__link">Log In</a>
+    </div>
+</ion-content>

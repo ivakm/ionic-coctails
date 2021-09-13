@@ -1,0 +1,54 @@
+<!--<ion-header [translucent]="true">-->
+<!--    <ion-toolbar>-->
+<!--        <ion-title class="header-title transparent">-->
+<!--            Drinks-->
+<!--        </ion-title>-->
+
+<!--        <ion-button [slot]="'end'">-->
+<!--            <ion-icon src="../../../assets/icon/filters.svg"></ion-icon>-->
+<!--        </ion-button>-->
+<!--    </ion-toolbar>-->
+<!--</ion-header>-->
+
+<ion-content>
+    <ion-slides pager="true" [options]="slideOpts" class="home__slides" (ionSlideDrag)="drag($event)">
+        <ion-slide>
+            <img src="./assets/logo.png" alt="logo"/>
+            <h2>Step by step explanation</h2>
+            <p>
+            </p>
+        </ion-slide>
+        <ion-slide>
+            <img src="./assets/logo.png"/>
+            <h2>Step by step explanation</h2>
+            <p>
+            </p>
+        </ion-slide>
+        <ion-slide>
+            <img src="./assets/logo.png"/>
+            <h2>No Dispo, No Penalty</h2>
+            <p>Automated overdraft balancing through partnerbank</p>
+        </ion-slide>
+        <ion-slide>
+            <img src="./assets/logo.png"/>
+            <h2>The Finance frog</h2>
+        </ion-slide>
+    </ion-slides>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <div class="home__buttons"
+             *ngIf="slideOpts.initialSlide <=2; else register">
+            <ion-button fill="outline" [routerLink]="['/register']">Skip</ion-button>
+            <ion-button (click)="nextSlide()">Next</ion-button>
+        </div>
+
+        <ng-template #register>
+            <div class="logIn">
+                <ion-button [routerLink]="['/register']">Start</ion-button>
+                <ion-button fill="outline">Log in</ion-button>
+            </div>
+        </ng-template>
+    </ion-toolbar>
+</ion-footer>

@@ -2,6 +2,6 @@
     <h3 class="category-list__header">{{groupDrink.category}}</h3>
     <app-drink *ngFor="let drink of groupDrink.drinks" [drink]="drink"></app-drink>
 </div>
-<ng-template *ngIf="isLoading">
+<ng-template *ngIf="loading">
     <ion-spinner name="crescent"></ion-spinner>
 </ng-template>

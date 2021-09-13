@@ -1,0 +1,45 @@
+ion-slides {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.swiper-slide {
+  flex-direction: column;
+}
+
+.swiper-slide img {
+  max-height: 50%;
+  max-width: 50%;
+  margin: 60px 0 20px;
+  pointer-events: none;
+}
+
+p {
+  color: var(--ion-color-step-600, #60646b);
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 0 40px;
+}
+
+.footer-md::before {
+  content: unset;
+}
+
+.home__buttons {
+  margin-top: auto;
+}
+
+.home__buttons {
+  display: flex;
+  justify-content: space-around;
+
+  ion-button {
+    width: 45%;
+  }
+}
+
+.logIn {
+  display: flex;
+  flex-direction: column;
+}
