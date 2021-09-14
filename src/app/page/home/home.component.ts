@@ -7,7 +7,7 @@ import { IonSlides } from '@ionic/angular';
     styleUrls: ['home.component.scss']
 })
 export class HomeComponent {
-    @ViewChild(IonSlides, { static: false }) slides: IonSlides;
+    @ViewChild(IonSlides) slides: IonSlides;
     slideOpts = {
         initialSlide: 2,
     };
