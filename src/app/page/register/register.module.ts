@@ -5,7 +5,9 @@ import { RegisterComponent } from './register.component';
 import { IonicModule } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { MatIconModule, MatInputModule } from '@angular/material';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -19,7 +21,8 @@ import { MatIconModule, MatInputModule } from '@angular/material';
         ReactiveFormsModule,
         RouterModule,
         MatInputModule,
-        MatIconModule
+        MatIconModule,
+        MatFormFieldModule
     ]
 })
 export class RegisterModule {
