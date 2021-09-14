@@ -4,35 +4,59 @@
     </ion-toolbar>
 </ion-header>
 <ion-content>
-    <div class="register__header">Registration</div>
-    <div [formGroup]="registerForm" class="register__form">
+    <div class="header">Registration</div>
+    <div [formGroup]="registerForm" class="pad-1rem">
         <ion-item lines="none">
-            <ion-label position="floating">Name</ion-label>
-            <ion-input [formControlName]="'name'"></ion-input>
+            <mat-form-field appearance="outline" class="width-100">
+                <mat-label>Name</mat-label>
+                <input matInput placeholder="Name" [formControlName]="'name'">
+            </mat-form-field>
+
         </ion-item>
+
         <ion-item lines="none">
-            <ion-label position="floating">E-mail</ion-label>
-            <ion-input [formControlName]="'email'"></ion-input>
+            <mat-form-field appearance="outline" class="width-100">
+                <mat-label>E-mail</mat-label>
+                <input matInput placeholder="E-mail" [formControlName]="'email'">
+            </mat-form-field>
         </ion-item>
-        <ion-item lines="none" class="register__pass">
-            <ion-label position="floating">Password</ion-label>
-            <ion-input [formControlName]="'pass'" [type]="isShowPass ? 'text': 'password'">
-            </ion-input>
-            <ion-button slot="end" color="none" (click)="isShowPass =!isShowPass">
-                <ion-icon name="eye" class="icon__eye"></ion-icon>
-            </ion-button>
+
+        <ion-item lines="none">
+            <mat-form-field appearance="outline" class="width-100">
+                <mat-label>Password</mat-label>
+                <input matInput placeholder="Password" [formControlName]="'pass'"
+                       [type]="isShowPass ? 'text': 'password'">
+                <mat-icon matSuffix
+                          (click)="isShowPass = !isShowPass">{{isShowPass ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </mat-form-field>
+
         </ion-item>
-        <ion-item lines="none" class="register__pass">
-            <ion-label position="floating">Repeat Password</ion-label>
-            <ion-input [formControlName]="'passRepeat'" [type]="isShowRepeatPass ? 'text': 'password'"></ion-input>
-            <ion-button slot="end" color="none" (click)="isShowRepeatPass = !isShowRepeatPass">
-                <ion-icon name="eye" class="icon__eye"></ion-icon>
-            </ion-button>
+
+        <ion-item lines="none">
+            <mat-form-field appearance="outline" class="width-100">
+                <mat-label>Repeat Password</mat-label>
+                <input matInput placeholder="Repeat Password" [formControlName]="'passRepeat'"
+                       [type]="isShowRepeatPass ? 'text': 'password'">
+                <mat-icon matSuffix
+                          (click)="isShowRepeatPass = !isShowRepeatPass">{{isShowRepeatPass ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </mat-form-field>
+
+
         </ion-item>
-        <ion-button (click)="showData()" [disabled]="!registerForm.valid" size="medium" class="register__submit">Continue</ion-button>
     </div>
-    <div class="login-action">
+
+    <ion-item lines="none">
+        <ion-button (click)="showData()" [disabled]="!registerForm.valid" size="medium" class="width-100 register__submit">
+            Continue
+        </ion-button>
+    </ion-item>
+    <div class="ta-center">
         <span> Already have an account? </span>
-        <a [routerLink]="['/login']" class="login__link">Log In</a>
+        <a [routerLink]="['/login']" class="fw-bold td-none">Log In</a>
     </div>
 </ion-content>
+
+
+<!--<ng-template *ngIf="loading">-->
+<!--    <ion-spinner name="crescent"></ion-spinner>-->
+<!--</ng-template>-->

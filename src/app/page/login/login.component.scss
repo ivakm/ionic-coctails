@@ -1,0 +1,11 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+}
+
+.forgot-password__link {
+  display: block;
+  text-align: right;
+}

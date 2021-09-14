@@ -1,0 +1,42 @@
+<ion-header>
+    <ion-toolbar>
+        <span>header</span>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="login">
+        <div class="login__header">
+            <div class="header">Log In</div>
+            <div [formGroup]="loginForm" class="pad-1rem">
+                <ion-item lines="none">
+                    <mat-form-field appearance="outline" class="width-100">
+                        <mat-label>E-mail</mat-label>
+                        <input matInput placeholder="E-mail" [formControlName]="'email'">
+                    </mat-form-field>
+                </ion-item>
+                <ion-item lines="none">
+                    <mat-form-field appearance="outline" class="width-100">
+                        <mat-label>Password</mat-label>
+                        <input matInput placeholder="Password" [formControlName]="'pass'"
+                               [type]="isShowPass ? 'text': 'password'">
+                        <mat-icon matSuffix
+                                  (click)="isShowPass = !isShowPass">{{isShowPass ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </mat-form-field>
+                </ion-item>
+                <a [routerLink]="['/']" class="forgot-password__link">Forgot password?</a>
+            </div>
+        </div>
+        <div class="login__footer">
+            <ion-item lines="none">
+                <ion-button (click)="logIn()" [disabled]="!loginForm.valid" size="medium"
+                            class="width-100 register__submit">
+                    Log In
+                </ion-button>
+            </ion-item>
+            <div class="ta-center">
+                <span> Don't have an account? </span>
+                <a [routerLink]="['/register']" class="td-none fw-bold">Register</a>
+            </div>
+        </div>
+    </div>
+</ion-content>

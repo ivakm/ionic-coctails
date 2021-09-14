@@ -24,3 +24,39 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.width-100 {
+  width: 100%;
+}
+
+.pad-1rem {
+  padding: 1rem;
+}
+
+.ta-center {
+  text-align: center;
+}
+
+.fw-bold {
+  font-weight: bold;
+}
+
+.td-none {
+  text-decoration: none;
+}
+
+.header {
+  font-size: 2rem;
+  font-weight: bold;
+  padding-top: 2rem;
+  text-align: center;
+}
+
+.register__submit {
+  --border-radius: 2rem;
+  margin-bottom: 2rem;
+}
+
+.register__submit[disabled] {
+  --background: grey;
+}

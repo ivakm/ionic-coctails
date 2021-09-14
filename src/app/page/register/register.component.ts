@@ -36,4 +36,7 @@ export class RegisterComponent implements OnInit {
         console.log(this.registerForm.valid);
     }
 
+    // setFilters(filters: ICheckboxCategoryDrink[] | any): Observable<ICheckboxCategoryDrink[]> {
+    //     return fromPromise(this.storage.set('filters', filters));
+    // }
 }
